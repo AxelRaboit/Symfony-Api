@@ -8,3 +8,9 @@
 - Comment
 
 ## Creation des fixtures pour remplir de donnée les deux entités
+- Creation de fixtures dans le fichier AppFixtures
+
+## Creation du controller pour créer l'api
+- Creation du fichier ApiPostController
+- Suppression du template lié car il est inutile dans le cadre d'une api
+
