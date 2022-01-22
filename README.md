@@ -1,24 +1,24 @@
-### Projet de learning pour créer une api sur symfony
+# Projet de learning pour créer une api sur symfony
 
 Video de reference: https://www.youtube.com/watch?v=SG7GgcnR1F4
 
-## Creation et installation de la base de donnée mysql (symfony console d:d:c)
+### Creation et installation de la base de donnée mysql (symfony console d:d:c)
 - Creation d'une base de donnée "symfonyapi"
 
-## Creation des entités
+### Creation des entités
 - Post
 - Comment
 
-## Creation des fixtures pour remplir de donnée les deux entités
+### Creation des fixtures pour remplir de donnée les deux entités
 - Creation de fixtures dans le fichier AppFixtures
 
-# PREMIERE PARTIE POUR RECUPERER LES DATAS DE LA BASE DE DONNÉE
+## PREMIERE PARTIE POUR RECUPERER LES DATAS DE LA BASE DE DONNÉE
 
-## Creation du controller pour créer l'api
+### Creation du controller pour créer l'api
 - Creation du fichier ApiPostController
 - Suppression du template lié car il est inutile dans le cadre d'une api
 
-## Serialization des données (Cela va éviter les references circulaires)
+### Serialization des données (Cela va éviter les references circulaires)
 Dans le fichier de l'entité "Post"
 - Importer le namespace et ajouter la ligne
 - Puis ajouter "@Groups("post:read")" le faire sur chaque propriété que l'on souhaite en extraire les données
@@ -41,11 +41,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 private $id;
 ```
 
-## Serialization de la seconde entité lié à la premiere
+### Serialization de la seconde entité lié à la premiere
 - Pour cela il faut ajouter "* @Groups("post:read")" à la propriété "comments" presente dans l'entité "Post"
 - Puis il faut alors aller dans l'entité "Comment" et ajouter aussi à toutes les propriété que l'on veut ciblé cela "* @Groups("post:read")". Surtout ne pas ajouter la la relation menant de Comment à Post, car cela a deja été dans le sens inverse.
 
-## Methodes pour recuperer la data au format json
+### Methodes pour recuperer la data au format json
 
 1ere methode
 ```
@@ -63,7 +63,7 @@ private $id;
 ```
 ```
 
-# SECONDE PARTIE POUR POSTER DE LA DATAS VERS LA BASE DE DONNÉE
+## SECONDE PARTIE POUR POSTER DE LA DATAS VERS LA BASE DE DONNÉE
 
 Dans le fichier apiPostController, ajouter cette methode
 
