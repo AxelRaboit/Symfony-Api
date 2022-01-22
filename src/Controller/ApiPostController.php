@@ -16,11 +16,6 @@ class ApiPostController extends AbstractController
      */
     public function index(PostRepository $postRepository, SerializerInterface $serializerInterface): Response
     {
-        $posts = $postRepository->findAll();
-
-        $response = $this->json($posts, 200, [], ['groups' => 'post:read']);
-
-        return $response;
-
+        return $this->json($postRepository->findAll(), 200, [], ['groups' => 'post:read']);
     }
 }
