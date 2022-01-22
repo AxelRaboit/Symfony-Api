@@ -1,6 +1,12 @@
 # Projet de learning pour créer une api sur symfony
 
-Video de reference: https://www.youtube.com/watch?v=SG7GgcnR1F4
+Video de reference: 
+
+1ere partie
+https://www.youtube.com/watch?v=SG7GgcnR1F4
+
+2eme partie
+https://www.youtube.com/watch?v=kO1gVLKCTvM
 
 ### Creation et installation de la base de donnée mysql (symfony console d:d:c)
 - Creation d'une base de donnée "symfonyapi"
@@ -171,3 +177,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 private $title;
 ```
 
+## TROISIEME PARTIE API PLATFORM (Librairie apiplatform)
+
+- Installation de api platform (avec symfony flex)
+```
+composer require api
+```
