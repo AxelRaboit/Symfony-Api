@@ -49,18 +49,61 @@ private $id;
 
 1ere methode
 ```
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+
+/**
+ * @Route("/api/post", name="api_get_data", methods={"GET"})
+ */
+public function getData(PostRepository $postRepository, NormalizerInterface $normalizer): Response
+{
+    $posts = $postRepository->findAll();
+    $postsNormalized = $normalizer->normalize($posts, null, ['groups' => 'post:read']);
+    $json = json_encode($postsNormalized);
+    $response = new Response($json, 200, [
+        "Content-Type" => "application/json"
+    ]);
+
+    return $response;
+}
 ```
 
 2eme methode
 ```
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
+
+/**
+ * @Route("/api/post", name="api_get_data", methods={"GET"})
+ */
+public function getData(PostRepository $postRepository, SerializerInterface $serializer): Response
+{
+    $posts = $postRepository->findAll();
+    $json = $serializer->serialize($posts, 'json', ['groups' => 'post:read']);
+    $response = new Response($json, 200, [
+        "Content-Type" => "application/json"
+    ]);
+
+    return $response;
+}
 ```
 
 3eme methode
 ```
-```
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Serializer\SerializerInterface;
 
-4eme methode
-```
+/**
+ * @Route("/api/post", name="api_get_data", methods={"GET"})
+ */
+public function getData(PostRepository $postRepository, SerializerInterface $serializer): Response
+{
+    $posts = $postRepository->findAll();
+    $json = $serializer->serialize($posts, 'json', ['groups' => 'post:read']);
+    $response = new JsonResponse($json, 200, [], true);
+
+    return $response;
+}
 ```
 
 ## SECONDE PARTIE POUR POSTER DE LA DATAS VERS LA BASE DE DONNÉE
