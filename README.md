@@ -182,4 +182,86 @@ private $title;
 - Installation de api platform (avec symfony flex)
 ```
 composer require api
+
+ou
+
+composer require api-platform/core
 ```
+
+Par la suite pour eviter les conflit, il faut aller dans le fichier api_platform.yaml et faire comme suit
+
+```
+api_platform:
+    resource: .
+    type: api_platform
+    prefix: /apip
+```
+
+Ensuite api platform est disponible a l'url suivante
+```
+http://localhost:8000/apip
+```
+
+Pour greffer api platform à une entité, il faut aller dans le fichier de l'entité en question puis ajouter ces lignes
+```
+use ApiPlatform\Core\Annotation\ApiResource;
+
+/**
+ * @ORM\Entity(repositoryClass=PostRepository::class)
+ * @ApiResource
+ */
+class Post
+{
+    //Code
+}
+```
+
+Il existe plusieurs fonctionnalité de ApiPlatform, la formation de Lior Chamla sur React js et ApiPlatform parle de plusieurs fonctionnalitées
+
+Dans le fichier src, Creation d'un dossier que l'on nomme DataPersister, puis un fichier dans ce dossier que l'on va nommer, PostPersister.php.
+
+```
+<?php
+
+namespace App\DataPersister;
+
+use App\Entity\Post;
+use Doctrine\ORM\EntityManagerInterface;
+use ApiPlatform\Core\DataPersister\DataPersisterInterface;
+
+class PostPersister implements DataPersisterInterface
+{
+    protected $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em;
+    }
+
+    public function supports($data): bool
+    {
+        return $data instanceof Post;
+    }
+
+    public function persist($data)
+    {
+        // 1. Mettre une date de creaion sur le post
+        $data->setCreatedAt(new \DateTime());
+
+        // 2. Demander a doctrine de persister
+        $this->em->persist($data);
+        $this->em->flush();
+    }
+
+    public function remove($data)
+    {
+        // 1. Demander a doctrine de supprimer le post
+        $this->em->remove($data);
+        $this->em->flush();
+    }
+}
+```
+
+Dans le code si dessus, nous avons fait en sorte de setter la date de creation qui de base n'est pas renseigné.
+
+Donc grâce a api platform, le code que nous avons effectué dans le controller de ApiPostController ne sert plus à rien car api platform prend le relais, et passe dans PostPersister.php.
